@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
-import ItemForm from './components/ItemForm';
+import Home from './pages/Home';
 import Inventory from './pages/Inventory';
+import Reports from './pages/Reports';
 import './App.css';
 
 function App() {
@@ -16,19 +17,14 @@ function App() {
             </Typography>
             <Button color="inherit" component={Link} to="/">Home</Button>
             <Button color="inherit" component={Link} to="/inventory">Inventario</Button>
+            <Button color="inherit" component={Link} to="/reports">Report</Button>
           </Toolbar>
         </AppBar>
 
         <Switch>
-          <Route exact path="/">
-            <div className="App-header">
-              <h1>Benvenuto nella Gestione Inventario</h1>
-              <ItemForm onSubmit={(formData) => console.log('Dati del form:', formData)} />
-            </div>
-          </Route>
-          <Route path="/inventory">
-            <Inventory />
-          </Route>
+          <Route exact path="/" component={Home} />
+          <Route path="/inventory" component={Inventory} />
+          <Route path="/reports" component={Reports} />
         </Switch>
       </div>
     </Router>
