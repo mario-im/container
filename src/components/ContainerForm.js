@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography, Paper } from '@material-ui/core';
+import QRCode from 'qrcode.react';
 
 const ContainerForm = ({ onSubmit, initialData = {} }) => {
   const [formData, setFormData] = useState({
@@ -61,6 +62,14 @@ const ContainerForm = ({ onSubmit, initialData = {} }) => {
           </Grid>
         </Grid>
       </form>
+      {formData.code && (
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <Typography variant="subtitle1" gutterBottom>
+            QR Code per il contenitore:
+          </Typography>
+          <QRCode value={`https://tuodominio.com/container/${formData.code}`} />
+        </div>
+      )}
     </Paper>
   );
 };
