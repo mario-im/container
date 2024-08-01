@@ -1,29 +1,36 @@
-import React, { useState } from 'react';
-import { Typography, Grid, Paper, Button, List, ListItem, ListItemText } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Typography, Grid, Paper, Button, List, ListItem, ListItemText, Dialog, DialogContent } from '@material-ui/core';
+import QRCode from 'qrcode.react';
 import ItemForm from '../components/ItemForm';
 import ContainerForm from '../components/ContainerForm';
+import SearchBar from '../components/SearchBar';
+import SaleForm from '../components/SaleForm';
+import { saveItems, getItems, saveContainers, getContainers, saveSale } from '../utils/storage';
 
 const Inventory = () => {
-  const [items, setItems] = useState([]);
-  const [containers, setContainers] = useState([]);
-  const [showItemForm, setShowItemForm] = useState(false);
-  const [showContainerForm, setShowContainerForm] = useState(false);
+  // ... (stato precedente)
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleItemSubmit = (formData) => {
-    setItems([...items, { id: Date.now(), ...formData }]);
-    setShowItemForm(false);
-  };
+  // ... (funzioni precedenti)
 
-  const handleContainerSubmit = (formData) => {
-    setContainers([...containers, { id: Date.now(), ...formData }]);
-    setShowContainerForm(false);
+  const handleSaleSubmit = (saleData) => {
+    saveSale(saleData);
+    const updatedItems = items.map(item => 
+      item.id === saleData.itemId 
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+    setItems(updatedItems);
+    setFilteredItems(updatedItems);
+    saveItems(updatedItems);
+    setSelectedItem(null);
   };
 
   return (
     <div style={{ padding: '20px' }}>
-      <Typography variant="h4" gutterBottom>Inventario</Typography>
+      {/* ... (contenuto precedente) */}
       
-      <Grid container spacing={3}>
+      <Grid container spacing={3} style={{ marginTop: '20px' }}>
         <Grid item xs={12} md={6}>
           <Paper style={{ padding: '20px' }}>
             <Typography variant="h6" gutterBottom>Oggetti</Typography>
@@ -37,8 +44,8 @@ const Inventory = () => {
             </Button>
             {showItemForm && <ItemForm onSubmit={handleItemSubmit} />}
             <List>
-              {items.map((item) => (
-                <ListItem key={item.id}>
+              {filteredItems.map((item) => (
+                <ListItem key={item.id} button onClick={() => setSelectedItem(item)}>
                   <ListItemText primary={item.title} secondary={`Quantità: ${item.quantity}`} />
                 </ListItem>
               ))}
@@ -46,28 +53,16 @@ const Inventory = () => {
           </Paper>
         </Grid>
         
-        <Grid item xs={12} md={6}>
-          <Paper style={{ padding: '20px' }}>
-            <Typography variant="h6" gutterBottom>Contenitori</Typography>
-            <Button 
-              variant="contained" 
-              color="primary" 
-              onClick={() => setShowContainerForm(true)}
-              style={{ marginBottom: '20px' }}
-            >
-              Aggiungi Contenitore
-            </Button>
-            {showContainerForm && <ContainerForm onSubmit={handleContainerSubmit} />}
-            <List>
-              {containers.map((container) => (
-                <ListItem key={container.id}>
-                  <ListItemText primary={container.name} secondary={`Codice: ${container.code}`} />
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        </Grid>
+        {/* ... (contenuto dei contenitori) */}
       </Grid>
+
+      {/* ... (Dialog per QR Code) */}
+
+      <Dialog open={!!selectedItem} onClose={() => setSelectedItem(null)}>
+        <DialogContent>
+          <SaleForm item={selectedItem} onSubmit={handleSaleSubmit} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
