@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Typography, Paper } from '@material-ui/core';
+import { TextField, Button, Grid, Typography, Paper } from '@mui/material';
 
 const SaleForm = ({ item, onSubmit }) => {
   const [salePrice, setSalePrice] = useState(item.salePrice);

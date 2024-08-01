@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, List, ListItem, ListItemText, Paper } from '@material-ui/core';
+import { Typography, List, ListItem, ListItemText, Paper } from '@mui/material';
 import { checkForReminders } from '../utils/reminderSystem';
 
 const ReminderList = () => {

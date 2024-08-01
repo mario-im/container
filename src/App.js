@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import Home from './pages/Home';
 import Inventory from './pages/Inventory';
 import Reports from './pages/Reports';
@@ -21,11 +21,11 @@ function App() {
           </Toolbar>
         </AppBar>
 
-        <Switch>
+        <Routes>
           <Route exact path="/" component={Home} />
-          <Route path="/inventory" component={Inventory} />
-          <Route path="/reports" component={Reports} />
-        </Switch>
+          <Route path="/inventory" element={<Inventory />} />
+          <Route path="/reports" element={<Reports />} />
+        </Routes>
       </div>
     </Router>
   );

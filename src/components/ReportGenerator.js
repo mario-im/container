@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { getItems, getContainers, getSales } from '../utils/storage';
 
 const ReportGenerator = () => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Grid, Paper, Button, List, ListItem, ListItemText, Dialog, DialogContent } from '@material-ui/core';
+import { Typography, Grid, Paper, Button, List, ListItem, ListItemText, Dialog, DialogContent } from '@mui/material';
 import QRCode from 'qrcode.react';
 import ItemForm from '../components/ItemForm';
 import ContainerForm from '../components/ContainerForm';
@@ -36,3 +36,8 @@ const Inventory = () => {
 };
 
 export default Inventory;
+const handleSearch = (searchTerm) => {
+  // Implementa la logica di ricerca qui
+  console.log('Searching for:', searchTerm);
+};
+
