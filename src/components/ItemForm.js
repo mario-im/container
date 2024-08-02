@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Typography, Paper } from '@mui/material';
+import { TextField, Button, Grid, MenuItem } from '@mui/material';
 
-const ItemForm = ({ onSubmit, initialData = {} }) => {
+const ItemForm = ({ onSubmit, containers }) => {
   const [formData, setFormData] = useState({
-    title: initialData.title || '',
-    description: initialData.description || '',
-    quantity: initialData.quantity || 1,
-    year: initialData.year || new Date().getFullYear(),
-    details: initialData.details || '',
-    salePrice: initialData.salePrice || 0,
-    desiredPrice: initialData.desiredPrice || 0,
-    maxDiscount: initialData.maxDiscount || 0,
-    containerId: initialData.containerId || '',
+    title: '',
+    description: '',
+    quantity: 1,
+    salePrice: 0,
+    containerId: '',
   });
 
   const handleChange = (e) => {
@@ -25,113 +21,73 @@ const ItemForm = ({ onSubmit, initialData = {} }) => {
   };
 
   return (
-    <Paper style={{ padding: '20px' }}>
-      <Typography variant="h6" gutterBottom>
-        {initialData.id ? 'Modifica Oggetto' : 'Aggiungi Nuovo Oggetto'}
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              fullWidth
-              name="title"
-              label="Titolo"
-              value={formData.title}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              fullWidth
-              name="description"
-              label="Descrizione"
-              value={formData.description}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              required
-              fullWidth
-              type="number"
-              name="quantity"
-              label="Quantità"
-              value={formData.quantity}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              fullWidth
-              type="number"
-              name="year"
-              label="Anno"
-              value={formData.year}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              fullWidth
-              name="details"
-              label="Dettagli"
-              value={formData.details}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              required
-              fullWidth
-              type="number"
-              name="salePrice"
-              label="Prezzo di Vendita"
-              value={formData.salePrice}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              required
-              fullWidth
-              type="number"
-              name="desiredPrice"
-              label="Prezzo Desiderato"
-              value={formData.desiredPrice}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              required
-              fullWidth
-              type="number"
-              name="maxDiscount"
-              label="Sconto Massimo (%)"
-              value={formData.maxDiscount}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="containerId"
-              label="ID Contenitore"
-              value={formData.containerId}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary">
-              {initialData.id ? 'Aggiorna' : 'Aggiungi'}
-            </Button>
-          </Grid>
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            name="title"
+            label="Titolo"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
         </Grid>
-      </form>
-    </Paper>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            name="description"
+            label="Descrizione"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            type="number"
+            name="quantity"
+            label="Quantità"
+            value={formData.quantity}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            type="number"
+            name="salePrice"
+            label="Prezzo di vendita"
+            value={formData.salePrice}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            select
+            fullWidth
+            name="containerId"
+            label="Contenitore"
+            value={formData.containerId}
+            onChange={handleChange}
+            required
+          >
+            {containers.map((container) => (
+              <MenuItem key={container.id} value={container.id}>
+                {container.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid item xs={12}>
+          <Button type="submit" variant="contained" color="primary">
+            Aggiungi Oggetto
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
   );
 };
 

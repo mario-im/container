@@ -1,48 +1,37 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Typography, Paper } from '@mui/material';
+import { TextField, Button, Typography } from '@mui/material';
 
 const SaleForm = ({ item, onSubmit }) => {
-  const [salePrice, setSalePrice] = useState(item.salePrice);
+  const [salePrice, setSalePrice] = useState(item?.salePrice || 0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({
-      itemId: item.id,
-      salePrice: parseFloat(salePrice),
-      saleDate: new Date().toISOString(),
-    });
+    if (item) {
+      onSubmit({
+        itemId: item.id,
+        salePrice: parseFloat(salePrice),
+        saleDate: new Date().toISOString(),
+      });
+    }
   };
 
+  if (!item) return <Typography>Nessun oggetto selezionato</Typography>;
+
   return (
-    <Paper style={{ padding: '20px' }}>
-      <Typography variant="h6" gutterBottom>
+    <form onSubmit={handleSubmit}>
+      <Typography>Oggetto: {item.title}</Typography>
+      <TextField
+        label="Prezzo di vendita"
+        type="number"
+        value={salePrice}
+        onChange={(e) => setSalePrice(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <Button type="submit" variant="contained" color="primary">
         Registra Vendita
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Typography>
-              Oggetto: {item.title}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              type="number"
-              label="Prezzo di Vendita"
-              value={salePrice}
-              onChange={(e) => setSalePrice(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary">
-              Registra Vendita
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Paper>
+      </Button>
+    </form>
   );
 };
 
